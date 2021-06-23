@@ -1,18 +1,15 @@
-
+import Tree from './components/Tree'
+import { treeData } from './treeData'
 function App() {
   return (
-    <div className="App">
-     <h1>test</h1>
+    <div style={{ margin: '2rem 4rem' }}>
+      <h2>Tree Nodes</h2>
+      <Tree data={treeData} />
     </div>
-  );
+  )
 }
 
-export default App;
-
-
-// text-color 452C2C
-// hover-color FF9292
-// nodebg-color E9CDCD
+export default App
 
 // const data = {
 //   id: '1',
