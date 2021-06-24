@@ -1,20 +1,15 @@
 import { useState } from 'react'
+import styled from 'styled-components/macro'
 import NodeButton from './NodeButton'
+
 const Tree = ({ data = [] }) => {
   return (
     <>
-      <ul
-        style={{
-          listStyle: 'none',
-          padding: '0',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
+      <UL>
         {data.map((tree) => (
           <TreeNode node={tree} />
         ))}
-      </ul>
+      </UL>
     </>
   )
 }
@@ -24,7 +19,7 @@ const TreeNode = ({ node }) => {
   const hasChild = node.children ? true : false
 
   return (
-    <li style={{ padding: '0.75rem 1.25rem' }}>
+    <LI>
       <div
         style={{ display: 'flex' }}
         onClick={(e) => setIsChildVisible((isVisible) => !isVisible)}
@@ -42,20 +37,23 @@ const TreeNode = ({ node }) => {
             borderLeft: isChildVisible ? '4px solid #E9CDCD' : ''
           }}
         >
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: '0',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
+          <UL>
             <Tree data={node.children} />
-          </ul>
+          </UL>
         </div>
       )}
-    </li>
+    </LI>
   )
 }
+
+const UL = styled.ul`
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+`
+const LI = styled.li`
+  padding: 0.75rem 1.25rem;
+`
 
 export default Tree

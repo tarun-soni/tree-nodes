@@ -4,8 +4,8 @@ import { THEME } from '../constants'
 
 const Button = styled.div`
   background-color: ${THEME.nodebgColor};
-  border-left: ${(props) =>
-    props.childVisible ? `2px solid ${THEME.nodebgColor}` : ``};
+  /* border-left: ${(props) =>
+    props.childVisible ? `2px solid ${THEME.nodebgColor}` : ``}; */
   color: ${THEME.textColor};
   padding: 0.75rem 1rem;
   font-size: 1rem;

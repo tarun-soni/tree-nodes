@@ -1,30 +1,18 @@
+import styled from 'styled-components/macro'
 import Tree from './components/Tree'
 import { treeData } from './treeData'
 function App() {
   return (
-    <div style={{ margin: '2rem 4rem' }}>
+    <Container>
       <h2>Tree Nodes</h2>
       <Tree data={treeData} />
-    </div>
+    </Container>
   )
 }
 
-export default App
+const Container = styled.div`
+  margin: 2rem 4rem;
+  font-family: 'Roboto', sans-serif;
+`
 
-// const data = {
-//   id: '1',
-//   title: 'Node 1',
-//   children: [
-//     {
-//       id: '1.1',
-//       title: 'Node 1.1',
-//       children [],
-//     },
-//     {
-//       id: '1.2',
-//       title: 'Node 1.2',
-//       children []
-//     },
-//   ]
-//   // And so on...
-// }
+export default App
