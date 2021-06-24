@@ -2,10 +2,53 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import { THEME } from '../constants'
 
+const NodeButton = ({
+  title,
+  childVisible,
+  setHovered,
+  hovered,
+  setIsChildVisible,
+  id,
+  arrOfParents
+}) => {
+  const mouseEntered = () => {
+    setHovered(true)
+    arrOfParents?.map((p) => {
+      if (p)
+        document.getElementById(p).style['backgroundColor'] = THEME.hoverColor
+      return p
+    })
+    document.getElementById(id).style['backgroundColor'] = THEME.hoverColor
+  }
+  const mouseLeaved = () => {
+    setHovered(false)
+
+    arrOfParents?.map((p) => {
+      if (p)
+        document.getElementById(p).style['backgroundColor'] = THEME.nodebgColor
+      return p
+    })
+    document.getElementById(id).style['backgroundColor'] = THEME.nodebgColor
+  }
+  return (
+    <Button
+      id={id}
+      onClick={(e) => setIsChildVisible((isVisible) => !isVisible)}
+      childVisible={childVisible}
+      onMouseEnter={mouseEntered}
+      onMouseLeave={mouseLeaved}
+      hovered={hovered}
+    >
+      <Indicator childVisible={childVisible} />
+      {title}
+    </Button>
+  )
+}
+
 const Button = styled.div`
-  background-color: ${THEME.nodebgColor};
-  /* border-left: ${(props) =>
-    props.childVisible ? `2px solid ${THEME.nodebgColor}` : ``}; */
+  background-color: ${(props) =>
+    props.hovered ? `${THEME.hoverColor}` : `${THEME.nodebgColor}`};
+
   color: ${THEME.textColor};
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -23,14 +66,4 @@ const Indicator = styled.div`
     props.childVisible ? `${THEME.nodebgColor}` : `${THEME.indicatorColor}`};
   border: 2px solid ${THEME.indicatorColor};
 `
-
-const NodeButton = ({ title, childVisible }) => {
-  return (
-    <Button childVisible={childVisible}>
-      <Indicator childVisible={childVisible} />
-      {title}
-    </Button>
-  )
-}
-
 export default NodeButton

@@ -9,7 +9,13 @@ export const treeData = [
         children: [
           {
             id: '1.1.1',
-            title: 'Node 1.1.1'
+            title: 'Node 1.1.1',
+            children: [
+              {
+                id: '1.1.1.1',
+                title: 'Node 1.1.1.1'
+              }
+            ]
           },
           {
             id: '1.1.2',
@@ -48,6 +54,12 @@ export const treeData = [
   {
     id: '2',
     title: 'Node 2',
-    children: []
+    children: [
+      {
+        id: '2.1',
+        title: 'Node 2.1',
+        children: []
+      }
+    ]
   }
 ]
