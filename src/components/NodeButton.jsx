@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 import { THEME } from '../constants'
+import { Draggable } from 'react-beautiful-dnd'
 
 const NodeButton = ({
   title,
@@ -9,7 +10,8 @@ const NodeButton = ({
   hovered,
   setIsChildVisible,
   id,
-  arrOfParents
+  arrOfParents,
+  tree
 }) => {
   const mouseEntered = () => {
     setHovered(true)
@@ -31,17 +33,29 @@ const NodeButton = ({
     document.getElementById(id).style['backgroundColor'] = THEME.nodebgColor
   }
   return (
-    <Button
-      id={id}
-      onClick={(e) => setIsChildVisible((isVisible) => !isVisible)}
-      childVisible={childVisible}
-      onMouseEnter={mouseEntered}
-      onMouseLeave={mouseLeaved}
-      hovered={hovered}
+    <Draggable
+      // draggableId={k ? `${k}_key_${index}` : `key_${index}`}
+      draggableId={tree.id}
+      index={tree.uuid}
+      key={tree.uuid}
     >
-      <Indicator childVisible={childVisible} />
-      {title}
-    </Button>
+      {(provided) => (
+        <Button
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          id={id}
+          onClick={(e) => setIsChildVisible((isVisible) => !isVisible)}
+          childVisible={childVisible}
+          onMouseEnter={mouseEntered}
+          onMouseLeave={mouseLeaved}
+          hovered={hovered}
+        >
+          <Indicator childVisible={childVisible} />
+          {title}
+        </Button>
+      )}
+    </Draggable>
   )
 }
 

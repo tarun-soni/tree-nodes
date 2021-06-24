@@ -2,15 +2,39 @@ import { useState } from 'react'
 import styled from 'styled-components/macro'
 import { THEME } from '../constants'
 import NodeButton from './NodeButton'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import React from 'react'
 
-const Tree = ({ data = [] }) => {
+const Tree = ({ data = [], no = 0, handleOnDragEnd }) => {
   return (
     <>
-      <UL>
-        {data.map((tree) => (
-          <TreeNode node={tree} key={tree.id} id={tree.id} />
-        ))}
-      </UL>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="characters">
+          {(provided) => (
+            <UL {...provided.droppableProps} ref={provided.innerRef}>
+              {data?.map((tree, index) => {
+                console.log(`tree`, tree)
+                console.log(`index`, index)
+                return (
+                  <LI key={tree.id}>
+                    <TreeNode
+                      key={tree.id}
+                      node={tree}
+                      id={tree.id}
+                      uuid={tree.uuid}
+                      no={++no}
+                      tree={tree}
+                      handleOnDragEnd={handleOnDragEnd}
+                    />
+                  </LI>
+                )
+              })}
+
+              {provided.placeholder}
+            </UL>
+          )}
+        </Droppable>
+      </DragDropContext>
     </>
   )
 }
@@ -28,16 +52,17 @@ const getParent = (node) => {
   }
 }
 
-const TreeNode = ({ node, id }) => {
+const TreeNode = React.forwardRef((props, _ref) => {
   const [isChildVisible, setIsChildVisible] = useState(false)
   const [hovered, setHovered] = useState(false)
+  const { node, id, tree, handleOnDragEnd } = props
 
   const hasChild = node.children ? true : false
 
   const arrOfParents = getParent(node.id)
 
   return (
-    <LI>
+    <>
       <div style={{ display: 'flex' }}>
         <NodeButton
           title={node.title}
@@ -48,23 +73,24 @@ const TreeNode = ({ node, id }) => {
           setIsChildVisible={setIsChildVisible}
           id={id}
           arrOfParents={arrOfParents}
+          tree={tree}
         />
       </div>
 
-      {hasChild && isChildVisible && (
+      {hasChild && isChildVisible && node.children.length && (
         <div
           style={{
             borderLeft: isChildVisible ? `4px solid ${THEME.nodebgColor}` : ''
           }}
         >
           <UL>
-            <Tree data={node.children} />
+            <Tree data={node.children} handleOnDragEnd={handleOnDragEnd} />
           </UL>
         </div>
       )}
-    </LI>
+    </>
   )
-}
+})
 
 const UL = styled.ul`
   list-style: none;
@@ -78,3 +104,28 @@ const LI = styled.li`
 `
 
 export default Tree
+
+{
+  /* <Draggable
+// draggableId={k ? `${k}_key_${index}` : `key_${index}`}
+draggableId={tree.id}
+index={tree.uuid}
+key={tree.uuid}
+>
+{(provided) => (
+  <LI
+    ref={provided.innerRef}
+    {...provided.draggableProps}
+    {...provided.dragHandleProps}
+  >
+    <TreeNode
+      key={tree.id}
+      node={tree}
+      id={tree.id}
+      uuid={tree.uuid}
+      no={++no}
+    />
+  </LI>
+)}
+</Draggable> */
+}
