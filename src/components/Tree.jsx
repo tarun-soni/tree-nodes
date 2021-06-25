@@ -2,10 +2,10 @@ import { useState } from 'react'
 import styled from 'styled-components/macro'
 import { THEME } from '../constants'
 import NodeButton from './NodeButton'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import React from 'react'
 
-const Tree = ({ data = [], no = 0, handleOnDragEnd }) => {
+const Tree = ({ data = [], handleOnDragEnd }) => {
   return (
     <>
       <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -13,8 +13,6 @@ const Tree = ({ data = [], no = 0, handleOnDragEnd }) => {
           {(provided) => (
             <UL {...provided.droppableProps} ref={provided.innerRef}>
               {data?.map((tree, index) => {
-                console.log(`tree`, tree)
-                console.log(`index`, index)
                 return (
                   <LI key={tree.id}>
                     <TreeNode
@@ -22,7 +20,6 @@ const Tree = ({ data = [], no = 0, handleOnDragEnd }) => {
                       node={tree}
                       id={tree.id}
                       uuid={tree.uuid}
-                      no={++no}
                       tree={tree}
                       handleOnDragEnd={handleOnDragEnd}
                     />
@@ -104,28 +101,3 @@ const LI = styled.li`
 `
 
 export default Tree
-
-{
-  /* <Draggable
-// draggableId={k ? `${k}_key_${index}` : `key_${index}`}
-draggableId={tree.id}
-index={tree.uuid}
-key={tree.uuid}
->
-{(provided) => (
-  <LI
-    ref={provided.innerRef}
-    {...provided.draggableProps}
-    {...provided.dragHandleProps}
-  >
-    <TreeNode
-      key={tree.id}
-      node={tree}
-      id={tree.id}
-      uuid={tree.uuid}
-      no={++no}
-    />
-  </LI>
-)}
-</Draggable> */
-}
